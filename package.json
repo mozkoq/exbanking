@@ -1,7 +1,7 @@
 {
-  "name": "node-typescript-boilerplate",
+  "name": "ExBanking",
   "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "description": "AMAZING, library for your bank application",
   "engines": {
     "node": ">= 14.16 <15"
   },
@@ -30,7 +30,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "author": "Jakub Synowiec <jsynowiec@users.noreply.github.com>",
+  "author": "Nikky <mozkoq@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "~2.3.1"
