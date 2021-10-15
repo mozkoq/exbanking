@@ -108,3 +108,4 @@ console.log(exBanking.send('user1', 'user2', 1, 'EUR'))
 console.log(exBanking.getBalance('user2', 'EUR'))
 
 // Todo: find propely way to work with either monad, create normal tests
+// Spended time today 3h 16 min
