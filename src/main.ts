@@ -1,5 +1,5 @@
 import {
-  BankingError, isError,
+  BankingError, ExBanking, isError,
   isValidAmount,
   isValidCurrency,
   isValidUsername, NotEnoughMoney, Ok, ReceiverDoesNotExist, SenderDoesNotExist,
@@ -9,7 +9,7 @@ import {
   WrongArguments,
 } from './types';
 
-export const init = () => {
+export const init = (): ExBanking => {
 
   const depositWithNegativeValue = (username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) => {
     if (!isValidUsername(username) || !isValidCurrency(currency)) return new WrongArguments();
