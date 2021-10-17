@@ -9,7 +9,8 @@ export type Ok = { success: true };
 export type Balance = { currency: string, amount: number }[];
 
 export type User = {
-  balance: Balance
+  balance: Balance,
+  username: string,
 }
 export type Username = string;
 
