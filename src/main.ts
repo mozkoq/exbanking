@@ -10,6 +10,7 @@ import {
 } from './types';
 
 export const init = (): ExBanking => {
+  const state: Map<Username, User> = new Map();
 
   const depositWithNegativeValue = (username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) => {
     if (!isValidUsername(username) || !isValidCurrency(currency)) return new WrongArguments();
@@ -36,7 +37,6 @@ export const init = (): ExBanking => {
   };
 
 
-  const state: Map<Username, User> = new Map();
   const send = (fromUsername: string, toUsername: string, amount: number, currency: string): (Ok & { fromUsernameBalance: number, toUsernameBalance: number } | BankingError) => {
     const withdrawResult = withdraw(fromUsername, amount, currency);
     if (withdrawResult instanceof UserDoesNotExist) return new SenderDoesNotExist();
@@ -68,8 +68,6 @@ export const init = (): ExBanking => {
 
     const balance = user.balance.find((balance) => balance.currency === currency);
 
-    // we don't have error with noCurrency balance and no text in task about this case.
-    // Currencies should be created automatically (if needed).
     return {
       ...success,
       balance: balance?.amount ?? 0,
@@ -78,15 +76,18 @@ export const init = (): ExBanking => {
 
   const withdraw = (username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) => {
     if (!isValidUsername(username) || !isValidCurrency(currency) || !isValidAmount(amount)) return new WrongArguments;
+
     const userBalance = getBalance(username, currency);
     if (userBalance instanceof Error) return userBalance as Error;
     if (userBalance.balance - amount < 0) return new NotEnoughMoney;
+
     return depositWithNegativeValue(username, -amount, currency);
   };
 
 
   const deposit = (username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) => {
     if (!isValidAmount(amount)) return new WrongArguments();
+
     return depositWithNegativeValue(username, amount, currency);
   };
 
@@ -95,27 +96,14 @@ export const init = (): ExBanking => {
     if (state.get(username)) return new UserAlreadyExists();
 
     state.set(username, { balance: [] });
+
     return success;
   };
 
   return { send, getBalance, createUser, withdraw, deposit };
 };
-// const exBanking = init();
 
-// // Amazing TDD
-// console.log(exBanking.getBalance('user1', 'EUR'))
-// console.log(exBanking.createUser('user1'))
-// console.log(exBanking.createUser('user1'))
-// console.log(exBanking.createUser('user2'))
-// console.log(exBanking.getBalance('user1', 'EUR'))
-// console.log(exBanking.deposit('user1', 1, 'EUR'))
-// console.log(exBanking.withdraw('user1', 2, 'EUR'))
-// console.log(exBanking.send('user1', 'user2', 1, 'EUR'))
-// console.log(exBanking.send('user1', 'user2', 1, 'EUR'))
-// console.log(exBanking.getBalance('user2', 'EUR'))
-
-// Todo: find propely way to work with either monad, create normal tests
-// Spended time today 3h 16 min
-// 11:07 25min spent.
-//z another 30min
+// Spended 3h 16 min 15 oct
+// Spended 1:20 sun 17 oct
+//  4:36 total spended
 
