@@ -17,11 +17,11 @@ export const success: Ok = { success: true };
 export const isValidUsername = (username: unknown): boolean => typeof username === 'string';
 export const isValidCurrency = (currency: unknown): boolean => typeof currency === 'string';
 export const isValidAmount = (amount: unknown): boolean => typeof amount === 'number' && isFinite(amount) && Math.sign(amount) === 1;
-export const isError = (value) =>  value instanceof Error;
+export const isError = (value) => value instanceof Error;
 
 export interface ExBanking {
   deposit: (username: string, amount: number, currency: string) => (Ok & { newBalance: number } | BankingError),
-  withdraw: (username: string, amount: number, currency: string) =>  (Ok & { newBalance: number } | BankingError),
+  withdraw: (username: string, amount: number, currency: string) => (Ok & { newBalance: number } | BankingError),
   getBalance: (username: string, currency: string) => (Ok & { balance: number } | BankingError),
   send: (fromUsername: string, toUsername: string, amount: number, currency: string) => (Ok & { fromUsernameBalance: number, toUsernameBalance: number } | BankingError),
   createUser: (username: string) => Ok | BankingError;

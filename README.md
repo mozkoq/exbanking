@@ -10,16 +10,33 @@
 - Type definitions for Node.js and Jest
 - [Prettier][prettier] to enforce consistent code style
 - NPM [scripts](#available-scripts) for common operations
-- Simple example of TypeScript code and unit test
 - .editorconfig for consistent file format
-- Reproducible environments thanks to [Volta][volta]
-- Example configuration for [GitHub Actions][gh-actions]
 
 🤲 Free as in speech: available under the APLv2 license.
 
 ## Getting Started
 
-This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
+Library returns init() function
+###example of use
+```javascript 
+import { init } from 'ex-banking';
+
+const exBanking = init();
+exBanking.createUser('NO');
+exBanking.getBalance('NO', 'eur');
+const balance = exBanking.getBalance('NO', 'eur');
+expect(balance).toStrictEqual({ ...success, balance: 0 });
+```
+### Library interface
+```typescript 
+interface ExBanking {
+  deposit: (username: string, amount: number, currency: string) => (Ok & { newBalance: number } | BankingError),
+  withdraw: (username: string, amount: number, currency: string) =>  (Ok & { newBalance: number } | BankingError),
+  getBalance: (username: string, currency: string) => (Ok & { balance: number } | BankingError),
+  send: (fromUsername: string, toUsername: string, amount: number, currency: string) => (Ok & { fromUsernameBalance: number, toUsernameBalance: number } | BankingError),
+  createUser: (username: string) => Ok | BankingError;
+}
+```
 
 ## Available Scripts
 
