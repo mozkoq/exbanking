@@ -25,7 +25,7 @@ export class ExBanking {
         balance: user.balance.map((balance) => currency === balance.currency ? {
           ...balance,
           amount: amount + balance.amount,
-        } : { ...balance }),
+        } : balance),
       });
     } else {
       this.#state.set(username, { ...user, balance: [...user.balance, { amount, currency }] });
