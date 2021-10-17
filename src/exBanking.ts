@@ -12,7 +12,7 @@ import {
 export class ExBanking {
   #state: Map<Username, User> = new Map();
 
-  #depositWithNegativeValue(username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) {
+  private depositWithNegativeValue(username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) {
     if (!isValidUsername(username) || !isValidCurrency(currency)) return new WrongArguments();
     const user = this.#state.get(username);
     if (!user) return new UserDoesNotExist();
@@ -81,14 +81,14 @@ export class ExBanking {
     if (userBalance instanceof Error) return userBalance as Error;
     if (userBalance.balance - amount < 0) return new NotEnoughMoney;
 
-    return this.#depositWithNegativeValue(username, -amount, currency);
+    return this.depositWithNegativeValue(username, -amount, currency);
   };
 
 
   deposit(username: string, amount: number, currency: string): (Ok & { newBalance: number } | BankingError) {
     if (!isValidAmount(amount)) return new WrongArguments();
 
-    return this.#depositWithNegativeValue(username, amount, currency);
+    return this.depositWithNegativeValue(username, amount, currency);
   };
 
   createUser(username: string): Ok | BankingError {
